@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>USA Road Trip — Szlakiem Parków Narodowych</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bitter:wght@400;600;700;900&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <div class="brand">USA<span>·ROADTRIP</span></div>
+  </div>
+</nav>
+
+<header class="hero">
+  <svg class="hero-illustration" viewBox="0 0 220 140" fill="none">
+    <circle cx="110" cy="52" r="34" fill="var(--mustard)"/>
+    <polygon points="0,120 65,40 105,85 145,50 220,120" fill="var(--green)"/>
+    <polygon points="35,120 65,62 95,120" fill="var(--green-dark)"/>
+    <polygon points="140,120 168,68 198,120" fill="var(--green-dark)"/>
+    <rect x="0" y="118" width="220" height="14" fill="var(--cream)"/>
+  </svg>
+  <span class="eyebrow">Lipiec–Sierpień 2026</span>
+  <h1>USA<br>Road&nbsp;Trip</h1>
+  <div class="subtitle">Szlakiem parków narodowych Zachodu</div>
+  <div class="stats">
+    <div class="stat"><div class="num">13</div><div class="label">Dni w trasie</div></div>
+    <div class="stat"><div class="num">8</div><div class="label">Stanów</div></div>
+    <div class="stat"><div class="num">9</div><div class="label">Parków i pomników</div></div>
+    <div class="stat"><div class="num">~4800</div><div class="label">Kilometrów</div></div>
+  </div>
+</header>
+
+<section class="route-strip">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">Trasa</span>
+      <h2>Od Las Vegas do Salt Lake City</h2>
+      <p>Jedenaście noclegów, osiem stanów, jedna wielka pętla przez Zachód.</p>
+    </div>
+  </div>
+  <div class="route-track">
+    <div class="stop"><div class="badge">1</div><div class="name">Las Vegas</div><div class="state">Nevada</div></div>
+    <div class="stop"><div class="badge">2</div><div class="name">Flagstaff</div><div class="state">Arizona</div></div>
+    <div class="stop"><div class="badge">3</div><div class="name">Page</div><div class="state">Arizona</div></div>
+    <div class="stop"><div class="badge">4</div><div class="name">Cortez</div><div class="state">Colorado</div></div>
+    <div class="stop"><div class="badge">5</div><div class="name">Montrose</div><div class="state">Colorado</div></div>
+    <div class="stop"><div class="badge">6</div><div class="name">Denver</div><div class="state">Colorado</div></div>
+    <div class="stop"><div class="badge">7</div><div class="name">Scottsbluff</div><div class="state">Nebraska</div></div>
+    <div class="stop"><div class="badge">8</div><div class="name">Rapid City</div><div class="state">S. Dakota</div></div>
+    <div class="stop"><div class="badge">9</div><div class="name">Billings</div><div class="state">Montana</div></div>
+    <div class="stop"><div class="badge">10</div><div class="name">W. Yellowstone</div><div class="state">Wyoming</div></div>
+    <div class="stop"><div class="badge">11</div><div class="name">Salt Lake City</div><div class="state">Utah</div></div>
+  </div>
+</section>
+
+<section class="map-section">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">Na żywo</span>
+      <h2>Mapa trasy</h2>
+      <p>Ta sama pętla, tym razem na prawdziwej mapie — kliknij pinezkę, żeby zobaczyć nazwę przystanku.</p>
+    </div>
+    <div id="trip-map" class="map-box"></div>
+  </div>
+</section>
+
+<section class="wrap">
+  <div class="section-head">
+    <span class="eyebrow">Najważniejsze przystanki</span>
+    <h2>Parki i pomniki narodowe</h2>
+    <div class="divider" style="margin-top:16px;"></div>
+  </div>
+  <div class="parks-grid">
+
+    <div class="park-card">
+      <div class="park-illustration" style="background:var(--cream-dark);">
+        <svg width="90" height="60" viewBox="0 0 90 60"><circle cx="45" cy="22" r="12" fill="var(--mustard)"/><polygon points="0,60 30,15 45,38 60,18 90,60" fill="var(--rust)"/></svg>
+      </div>
+      <div class="park-body">
+        <h3>Wielki Kanion</h3>
+        <span class="state-tag">Arizona</span>
+        <p>Mather Point, Bright Angel Trail i trasa Desert View.</p>
+      </div>
+    </div>
+
+    <div class="park-card">
+      <div class="park-illustration" style="background:var(--cream-dark);">
+        <svg width="90" height="60" viewBox="0 0 90 60"><path d="M20,60 Q30,20 45,50 Q55,10 70,60 Z" fill="var(--rust-dark)"/></svg>
+      </div>
+      <div class="park-body">
+        <h3>Kanion Antylopy</h3>
+        <span class="state-tag">Arizona</span>
+        <p>Wąskie, rzeźbione przez wodę i wiatr szczeliny skalne.</p>
+      </div>
+    </div>
+
+    <div class="park-card">
+      <div class="park-illustration" style="background:var(--cream-dark);">
+        <svg width="90" height="60" viewBox="0 0 90 60"><rect x="18" y="10" width="14" height="50" fill="var(--rust)"/><rect x="40" y="20" width="14" height="40" fill="var(--rust-dark)"/><rect x="62" y="5" width="14" height="55" fill="var(--rust)"/></svg>
+      </div>
+      <div class="park-body">
+        <h3>Dolina Pomników</h3>
+        <span class="state-tag">Arizona / Utah</span>
+        <p>Iglice skalne znane z westernów — przejazd jeepami.</p>
+      </div>
+    </div>
+
+    <div class="park-card">
+      <div class="park-illustration" style="background:var(--cream-dark);">
+        <svg width="90" height="60" viewBox="0 0 90 60"><rect x="10" y="35" width="70" height="20" fill="var(--green-dark)"/><rect x="25" y="20" width="14" height="20" fill="var(--rust-dark)"/><rect x="50" y="15" width="14" height="25" fill="var(--rust-dark)"/></svg>
+      </div>
+      <div class="park-body">
+        <h3>Mesa Verde</h3>
+        <span class="state-tag">Colorado</span>
+        <p>Osady w klifach budowane przez lud Anasazi, lista UNESCO.</p>
+      </div>
+    </div>
+
+    <div class="park-card">
+      <div class="park-illustration" style="background:var(--cream-dark);">
+        <svg width="90" height="60" viewBox="0 0 90 60"><rect x="0" y="0" width="90" height="60" fill="var(--ink)"/><polygon points="0,60 30,10 45,35 60,15 90,60" fill="var(--green-dark)"/></svg>
+      </div>
+      <div class="park-body">
+        <h3>Black Canyon of the Gunnison</h3>
+        <span class="state-tag">Colorado</span>
+        <p>Wąski i głęboki na 830 m kanion — jeden z najciemniejszych w USA.</p>
+      </div>
+    </div>
+
+    <div class="park-card">
+      <div class="park-illustration" style="background:var(--cream-dark);">
+        <svg width="90" height="60" viewBox="0 0 90 60"><polygon points="0,60 25,25 45,50 65,20 90,60" fill="var(--rust)"/><circle cx="70" cy="15" r="8" fill="var(--mustard)"/></svg>
+      </div>
+      <div class="park-body">
+        <h3>Badlands</h3>
+        <span class="state-tag">Południowa Dakota</span>
+        <p>Nietypowe formacje erozyjne i swobodnie wędrujące bizony.</p>
+      </div>
+    </div>
+
+    <div class="park-card">
+      <div class="park-illustration" style="background:var(--cream-dark);">
+        <svg width="90" height="60" viewBox="0 0 90 60"><rect x="15" y="15" width="60" height="40" fill="var(--ink-soft)"/><circle cx="30" cy="35" r="7" fill="var(--cream)"/><circle cx="45" cy="35" r="7" fill="var(--cream)"/><circle cx="60" cy="35" r="7" fill="var(--cream)"/></svg>
+      </div>
+      <div class="park-body">
+        <h3>Mount Rushmore</h3>
+        <span class="state-tag">Południowa Dakota</span>
+        <p>Rzeźby czterech prezydentów wykute w zboczu góry.</p>
+      </div>
+    </div>
+
+    <div class="park-card">
+      <div class="park-illustration" style="background:var(--cream-dark);">
+        <svg width="90" height="60" viewBox="0 0 90 60"><polygon points="35,60 40,10 50,10 55,60" fill="var(--green-dark)"/></svg>
+      </div>
+      <div class="park-body">
+        <h3>Devils Tower</h3>
+        <span class="state-tag">Wyoming</span>
+        <p>Ponad 260-metrowa skalna wieża pośród równin.</p>
+      </div>
+    </div>
+
+    <div class="park-card">
+      <div class="park-illustration" style="background:var(--cream-dark);">
+        <svg width="90" height="60" viewBox="0 0 90 60"><circle cx="45" cy="35" r="10" fill="var(--mustard)"/><circle cx="45" cy="35" r="16" fill="none" stroke="var(--rust)" stroke-width="2"/></svg>
+      </div>
+      <div class="park-body">
+        <h3>Yellowstone</h3>
+        <span class="state-tag">Wyoming</span>
+        <p>Gejzery, gorące źródła i Wielki Kanion rzeki Yellowstone.</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<section style="background:var(--paper);">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">Dzień po dniu</span>
+      <h2>Dziennik podróży</h2>
+      <p>Kliknij dowolny dzień, żeby zobaczyć więcej szczegółów — docelowo dojdą tam też Wasze zdjęcia.</p>
+    </div>
+    <div class="timeline">
+
+      <div class="day">
+        <div class="day-card" onclick="openDayModal(1)">
+          <div class="day-num">Dzień 1</div><h4>Wylądowaliśmy w Las Vegas</h4>
+          <p>Powitanie w mieście, transfer do hotelu, pierwszy nocleg.</p>
+          <div class="hint">Kliknij, żeby zobaczyć więcej →</div>
+        </div>
+      </div>
+
+      <div class="day">
+        <div class="day-card" onclick="openDayModal(2)">
+          <div class="day-num">Dzień 2</div><h4>Las Vegas → Flagstaff</h4>
+          <p>Przejechaliśmy przez Las Vegas Strip, zatrzymaliśmy się przy zaporze Hoovera i w malowniczej Sedonie.</p>
+          <div class="km">ok. 490 km</div>
+          <div class="hint">Kliknij, żeby zobaczyć więcej →</div>
+        </div>
+      </div>
+
+      <div class="day">
+        <div class="day-card" onclick="openDayModal(3)">
+          <div class="day-num">Dzień 3</div><h4>Wielki Kanion → Page</h4>
+          <p>Zobaczyliśmy Mather Point, przeszliśmy kawałek Bright Angel Trail i przejechaliśmy trasą Desert View.</p>
+          <div class="km">ok. 350 km</div>
+          <div class="hint">Kliknij, żeby zobaczyć więcej →</div>
+        </div>
+      </div>
+
+      <div class="day">
+        <div class="day-card" onclick="openDayModal(4)">
+          <div class="day-num">Dzień 4</div><h4>Kanion Antylopy i Dolina Pomników → Cortez</h4>
+          <p>Przejechaliśmy jeepami przez Monument Valley i zatrzymaliśmy się w Goosenecks State Park.</p>
+          <div class="km">ok. 430 km</div>
+          <div class="hint">Kliknij, żeby zobaczyć więcej →</div>
+        </div>
+      </div>
+
+      <div class="day">
+        <div class="day-card" onclick="openDayModal(5)">
+          <div class="day-num">Dzień 5</div><h4>Mesa Verde i Million Dollar Highway → Montrose</h4>
+          <p>Zwiedziliśmy osady klifowe w Mesa Verde i przejechaliśmy przez Silverton i Ouray.</p>
+          <div class="km">ok. 320 km</div>
+          <div class="hint">Kliknij, żeby zobaczyć więcej →</div>
+        </div>
+      </div>
+
+      <div class="day">
+        <div class="day-card" onclick="openDayModal(6)">
+          <div class="day-num">Dzień 6</div><h4>Black Canyon i Aspen → Denver</h4>
+          <p>Odwiedziliśmy punkty widokowe kanionu i przeszliśmy się po historycznym Aspen.</p>
+          <div class="km">ok. 520 km</div>
+          <div class="hint">Kliknij, żeby zobaczyć więcej →</div>
+        </div>
+      </div>
+
+      <div class="day">
+        <div class="day-card" onclick="openDayModal(7)">
+          <div class="day-num">Dzień 7</div><h4>Denver → Scottsbluff</h4>
+          <p>Zwiedziliśmy Denver i zatrzymaliśmy się po drodze w Cheyenne w Wyoming.</p>
+          <div class="km">ok. 440 km</div>
+          <div class="hint">Kliknij, żeby zobaczyć więcej →</div>
+        </div>
+      </div>
+
+      <div class="day">
+        <div class="day-card" onclick="openDayModal(8)">
+          <div class="day-num">Dzień 8</div><h4>Chimney Rock i Badlands → Rapid City</h4>
+          <p>Zobaczyliśmy formację skalną sprzed 25 mln lat i przejechaliśmy przez preriowy krajobraz Badlands.</p>
+          <div class="km">ok. 500 km</div>
+          <div class="hint">Kliknij, żeby zobaczyć więcej →</div>
+        </div>
+      </div>
+
+      <div class="day">
+        <div class="day-card" onclick="openDayModal(9)">
+          <div class="day-num">Dzień 9</div><h4>Mount Rushmore i Devils Tower → Billings</h4>
+          <p>Zobaczyliśmy rzeźby prezydentów, zajrzeliśmy do miasteczka Deadwood i pod Devils Tower.</p>
+          <div class="km">ok. 660 km</div>
+          <div class="hint">Kliknij, żeby zobaczyć więcej →</div>
+        </div>
+      </div>
+
+      <div class="day">
+        <div class="day-card" onclick="openDayModal(10)">
+          <div class="day-num">Dzień 10</div><h4>Yellowstone → West Yellowstone</h4>
+          <p>Zwiedziliśmy Mammoth Hot Springs, Norris Geyser Basin i dolinę Hayden.</p>
+          <div class="km">ok. 420 km</div>
+          <div class="hint">Kliknij, żeby zobaczyć więcej →</div>
+        </div>
+      </div>
+
+      <div class="day">
+        <div class="day-card" onclick="openDayModal(11)">
+          <div class="day-num">Dzień 11</div><h4>Yellowstone → Salt Lake City</h4>
+          <p>Zobaczyliśmy gejzer Old Faithful, Grand Prismatic Spring i przejechaliśmy przez Idaho.</p>
+          <div class="km">ok. 620 km</div>
+          <div class="hint">Kliknij, żeby zobaczyć więcej →</div>
+        </div>
+      </div>
+
+      <div class="day">
+        <div class="day-card" onclick="openDayModal(12)">
+          <div class="day-num">Dzień 12</div><h4>Salt Lake City</h4>
+          <p>Zwiedziliśmy Temple Square i Kapitol stanu Utah, wieczorem lot powrotny.</p>
+          <div class="hint">Kliknij, żeby zobaczyć więcej →</div>
+        </div>
+      </div>
+
+      <div class="day">
+        <div class="day-card" onclick="openDayModal(13)">
+          <div class="day-num">Dzień 13</div><h4>Powrót do Warszawy</h4>
+          <p>Koniec naszej podróży.</p>
+          <div class="hint">Kliknij, żeby zobaczyć więcej →</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="brand2">USA Road Trip</div>
+  <p>Relacja z naszej podróży przez parki narodowe amerykańskiego Zachodu — lipiec–sierpień 2026.</p>
+</footer>
+
+<div class="modal-overlay" id="dayModal" onclick="if(event.target===this) closeDayModal()">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeDayModal()">&times;</button>
+    <span class="modal-eyebrow" id="modalEyebrow"></span>
+    <h3 id="modalTitle"></h3>
+    <div class="modal-km" id="modalKm"></div>
+    <p class="modal-desc" id="modalDesc"></p>
+    <ul class="modal-list" id="modalList"></ul>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="js/data.js"></script>
+<script src="js/main.js"></script>
+
+</body>
+</html>
