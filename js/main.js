@@ -1,16 +1,22 @@
-// Logika modala dnia, przełącznika języka oraz inicjalizacja mapy Leaflet.
-// Dane (dayDataPL, dayDataEN, uiText, stops) pochodzą z js/data.js — wczytaj go przed tym plikiem.
+// Logika modala dnia/parku, przełącznika języka oraz inicjalizacja mapy Leaflet.
+// Dane (dayDataPL, dayDataEN, parkDataPL, parkDataEN, uiText, stops) pochodzą
+// z js/data.js — wczytaj go przed tym plikiem.
 
 let currentDayNum = null; // numer dnia aktualnie otwartego w modalu (do odświeżenia po zmianie języka)
+let currentParkNum = null; // numer parku aktualnie otwartego w modalu (do odświeżenia po zmianie języka)
+let currentModalType = null; // 'day' | 'park' - który rodzaj treści jest aktualnie w modalu
 let currentLang = 'pl'; // aktualnie wybrany język, ustawiany przez setLanguage
 
 function openDayModal(dayNum){
   const d = window.activeDayData[dayNum];
+  currentModalType = 'day';
   currentDayNum = dayNum;
+  currentParkNum = null;
   document.getElementById('modalEyebrow').textContent = uiText[currentLang].dayWord + ' ' + dayNum;
   document.getElementById('modalTitle').textContent = d.title;
   document.getElementById('modalKm').textContent = d.km || '';
   document.getElementById('modalKm').style.display = d.km ? 'block' : 'none';
+  document.getElementById('modalDesc').style.display = 'block';
   document.getElementById('modalDesc').textContent = d.desc;
   const list = document.getElementById('modalList');
   list.innerHTML = '';
@@ -19,13 +25,84 @@ function openDayModal(dayNum){
     li.textContent = item;
     list.appendChild(li);
   });
+  renderGallery(d.photos, d.title);
   document.getElementById('dayModal').classList.add('open');
 }
+
+// Galeria zdjęć w modalu dnia. Buduje siatkę miniatur z tablicy d.photos
+// (ścieżki z js/data.js). Kliknięcie miniatury otwiera zdjęcie w lightboxie.
+function renderGallery(photos, title){
+  const gallery = document.getElementById('modalGallery');
+  gallery.innerHTML = '';
+  if (!photos || !photos.length){
+    gallery.style.display = 'none';
+    return;
+  }
+  gallery.style.display = 'grid';
+  photos.forEach((src, i) => {
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'gallery-thumb';
+    btn.addEventListener('click', () => openLightbox(src, title));
+    const img = document.createElement('img');
+    img.src = src;
+    img.loading = 'lazy';
+    img.alt = (title || 'Zdjęcie') + ' — ' + (i + 1);
+    btn.appendChild(img);
+    gallery.appendChild(btn);
+  });
+}
+
+function openLightbox(src, alt){
+  const box = document.getElementById('lightbox');
+  const img = document.getElementById('lightboxImg');
+  img.src = src;
+  img.alt = alt || '';
+  box.classList.add('open');
+}
+function closeLightbox(){
+  const box = document.getElementById('lightbox');
+  box.classList.remove('open');
+  document.getElementById('lightboxImg').src = '';
+}
+
+// Modal karty parku - ten sam modal co dni (#dayModal), tylko bez daty/opisu,
+// same fakty w modalList. Eyebrow pokazuje stan zamiast "Dzień X".
+function openParkModal(parkNum){
+  const p = window.activeParkData[parkNum];
+  currentModalType = 'park';
+  currentParkNum = parkNum;
+  currentDayNum = null;
+  document.getElementById('modalEyebrow').textContent = p.subtitle;
+  document.getElementById('modalTitle').textContent = p.title;
+  document.getElementById('modalKm').style.display = 'none';
+  document.getElementById('modalDesc').style.display = 'none';
+  const list = document.getElementById('modalList');
+  list.innerHTML = '';
+  p.list.forEach(item => {
+    const li = document.createElement('li');
+    li.textContent = item;
+    list.appendChild(li);
+  });
+  renderGallery(null); // karty parków nie mają zdjęć
+  document.getElementById('dayModal').classList.add('open');
+}
+
 function closeDayModal(){
   document.getElementById('dayModal').classList.remove('open');
   currentDayNum = null;
+  currentParkNum = null;
+  currentModalType = null;
 }
-document.addEventListener('keydown', e => { if(e.key === 'Escape') closeDayModal(); });
+document.addEventListener('keydown', e => {
+  if (e.key !== 'Escape') return;
+  // Najpierw zamknij lightbox (jeśli otwarty), dopiero potem modal.
+  if (document.getElementById('lightbox').classList.contains('open')) {
+    closeLightbox();
+  } else {
+    closeDayModal();
+  }
+});
 
 // Przełącznik języka PL/EN.
 function setLanguage(lang){
@@ -56,6 +133,8 @@ function setLanguage(lang){
 
   // Aktywny zestaw danych dziennika podróży, używany m.in. przez openDayModal.
   window.activeDayData = lang === 'en' ? dayDataEN : dayDataPL;
+  // Aktywny zestaw faktów o parkach, używany m.in. przez openParkModal.
+  window.activeParkData = lang === 'en' ? parkDataEN : parkDataPL;
 
   // Karty dni w sekcji "Dziennik podróży" - numer, tytuł i dystans biorą się
   // wprost z activeDayData, więc zawsze są zgodne z treścią modala.
@@ -70,9 +149,13 @@ function setLanguage(lang){
     if (kmEl) kmEl.textContent = d.km || '';
   });
 
-  // Jeśli modal dnia jest akurat otwarty, odśwież jego treść w nowym języku.
-  if (document.getElementById('dayModal').classList.contains('open') && currentDayNum !== null) {
-    openDayModal(currentDayNum);
+  // Jeśli modal (dnia lub parku) jest akurat otwarty, odśwież jego treść w nowym języku.
+  if (document.getElementById('dayModal').classList.contains('open')) {
+    if (currentModalType === 'day' && currentDayNum !== null) {
+      openDayModal(currentDayNum);
+    } else if (currentModalType === 'park' && currentParkNum !== null) {
+      openParkModal(currentParkNum);
+    }
   }
 }
 
@@ -120,3 +203,40 @@ if (typeof L === 'undefined') {
 
 // Wczytaj zapamiętany język (domyślnie polski) przy starcie strony.
 setLanguage(localStorage.getItem('siteLang') || 'pl');
+
+// PASEK POSTĘPU CZYTANIA
+// Szerokość paska = ile procent strony zostało przewinięte.
+(function initReadingProgress(){
+  const bar = document.getElementById('readingProgress');
+  if (!bar) return;
+  function update(){
+    const el = document.documentElement;
+    const scrollable = el.scrollHeight - el.clientHeight;
+    const pct = scrollable > 0 ? (el.scrollTop / scrollable) * 100 : 0;
+    bar.style.width = Math.min(100, Math.max(0, pct)) + '%';
+  }
+  window.addEventListener('scroll', update, { passive: true });
+  window.addEventListener('resize', update);
+  update();
+})();
+
+// ANIMACJE PRZY SCROLLU
+// Każdej sekcji i karcie dodajemy klasę "visible" gdy wjeżdża w widok.
+// Raz pokazany element pozostaje widoczny (przestajemy go obserwować).
+(function initScrollAnimations(){
+  const targets = document.querySelectorAll('section, .park-card, .day-card, .stat, blockquote');
+  if (!('IntersectionObserver' in window) || !targets.length) return;
+
+  document.body.classList.add('anim-ready');
+
+  const observer = new IntersectionObserver((entries, obs) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting){
+        entry.target.classList.add('visible');
+        obs.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+
+  targets.forEach(el => observer.observe(el));
+})();

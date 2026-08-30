@@ -4,6 +4,11 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>USA Road Trip — Szlakiem Parków Narodowych</title>
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<meta name="description" content="Relacja z podróży przez parki narodowe amerykańskiego Zachodu - trasa, dziennik i mapa.">
+<meta property="og:title" content="USA Road Trip - nasza podróż przez parki narodowe">
+<meta property="og:description" content="Trzynastodniowa podróż przez dziewięć amerykańskich stanów i dziewięć parków narodowych - dziennik, mapa i zdjęcia z trasy.">
+<meta property="og:type" content="website">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Bitter:wght@400;600;700;900&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css">
@@ -11,13 +16,18 @@
 </head>
 <body>
 
+<div class="reading-progress" id="readingProgress"></div>
+
 <nav>
   <div class="lang-switch">
     <button class="lang-btn active" data-lang="pl" onclick="setLanguage('pl')" aria-label="Polski">🇵🇱</button>
     <button class="lang-btn" data-lang="en" onclick="setLanguage('en')" aria-label="English">🇬🇧</button>
   </div>
   <div class="wrap">
-    <div class="brand">USA<span>·ROADTRIP</span></div>
+    <div class="brand">
+      <span class="quote" data-pl="Nie ma nic bardziej amerykańskiego niż nasze parki narodowe." data-en="There is nothing so American as our national parks.">Nie ma nic bardziej amerykańskiego niż nasze parki narodowe.</span>
+      <span class="quote-author">Franklin D. Roosevelt (1934)</span>
+    </div>
   </div>
 </nav>
 
@@ -74,6 +84,15 @@
   </div>
 </section>
 
+<section class="quote-band">
+  <div class="wrap">
+    <blockquote data-pl="Wielki Kanion Kolorado, który wydaje się rozciągać po horyzont. Wielki… faktycznie jest Grand, Big, Huge, Preposterous. Niesamowity."
+                data-en="The Grand Canyon seems to stretch to the horizon. Truly Grand, Big, Huge. Incredible.">
+      Wielki Kanion Kolorado, który wydaje się rozciągać po horyzont. Wielki… faktycznie jest Grand, Big, Huge, Preposterous. Niesamowity.
+    </blockquote>
+  </div>
+</section>
+
 <section class="wrap">
   <div class="section-head">
     <span class="eyebrow" id="ui-parksEyebrow">Najważniejsze przystanki</span>
@@ -82,7 +101,7 @@
   </div>
   <div class="parks-grid">
 
-    <div class="park-card">
+    <div class="park-card" onclick="openParkModal(1)">
       <div class="park-illustration" style="background:var(--cream-dark);">
         <svg width="90" height="60" viewBox="0 0 90 60"><circle cx="45" cy="22" r="12" fill="var(--mustard)"/><polygon points="0,60 30,15 45,38 60,18 90,60" fill="var(--rust)"/></svg>
       </div>
@@ -93,7 +112,7 @@
       </div>
     </div>
 
-    <div class="park-card">
+    <div class="park-card" onclick="openParkModal(2)">
       <div class="park-illustration" style="background:var(--cream-dark);">
         <svg width="90" height="60" viewBox="0 0 90 60"><path d="M20,60 Q30,20 45,50 Q55,10 70,60 Z" fill="var(--rust-dark)"/></svg>
       </div>
@@ -104,7 +123,7 @@
       </div>
     </div>
 
-    <div class="park-card">
+    <div class="park-card" onclick="openParkModal(3)">
       <div class="park-illustration" style="background:var(--cream-dark);">
         <svg width="90" height="60" viewBox="0 0 90 60"><rect x="18" y="10" width="14" height="50" fill="var(--rust)"/><rect x="40" y="20" width="14" height="40" fill="var(--rust-dark)"/><rect x="62" y="5" width="14" height="55" fill="var(--rust)"/></svg>
       </div>
@@ -115,7 +134,7 @@
       </div>
     </div>
 
-    <div class="park-card">
+    <div class="park-card" onclick="openParkModal(4)">
       <div class="park-illustration" style="background:var(--cream-dark);">
         <svg width="90" height="60" viewBox="0 0 90 60"><rect x="10" y="35" width="70" height="20" fill="var(--green-dark)"/><rect x="25" y="20" width="14" height="20" fill="var(--rust-dark)"/><rect x="50" y="15" width="14" height="25" fill="var(--rust-dark)"/></svg>
       </div>
@@ -126,7 +145,7 @@
       </div>
     </div>
 
-    <div class="park-card">
+    <div class="park-card" onclick="openParkModal(5)">
       <div class="park-illustration" style="background:var(--cream-dark);">
         <svg width="90" height="60" viewBox="0 0 90 60"><rect x="0" y="0" width="90" height="60" fill="var(--ink)"/><polygon points="0,60 30,10 45,35 60,15 90,60" fill="var(--green-dark)"/></svg>
       </div>
@@ -137,7 +156,7 @@
       </div>
     </div>
 
-    <div class="park-card">
+    <div class="park-card" onclick="openParkModal(6)">
       <div class="park-illustration" style="background:var(--cream-dark);">
         <svg width="90" height="60" viewBox="0 0 90 60"><polygon points="0,60 25,25 45,50 65,20 90,60" fill="var(--rust)"/><circle cx="70" cy="15" r="8" fill="var(--mustard)"/></svg>
       </div>
@@ -148,7 +167,7 @@
       </div>
     </div>
 
-    <div class="park-card">
+    <div class="park-card" onclick="openParkModal(7)">
       <div class="park-illustration" style="background:var(--cream-dark);">
         <svg width="90" height="60" viewBox="0 0 90 60"><rect x="15" y="15" width="60" height="40" fill="var(--ink-soft)"/><circle cx="30" cy="35" r="7" fill="var(--cream)"/><circle cx="45" cy="35" r="7" fill="var(--cream)"/><circle cx="60" cy="35" r="7" fill="var(--cream)"/></svg>
       </div>
@@ -159,7 +178,7 @@
       </div>
     </div>
 
-    <div class="park-card">
+    <div class="park-card" onclick="openParkModal(8)">
       <div class="park-illustration" style="background:var(--cream-dark);">
         <svg width="90" height="60" viewBox="0 0 90 60"><polygon points="35,60 40,10 50,10 55,60" fill="var(--green-dark)"/></svg>
       </div>
@@ -170,7 +189,7 @@
       </div>
     </div>
 
-    <div class="park-card">
+    <div class="park-card" onclick="openParkModal(9)">
       <div class="park-illustration" style="background:var(--cream-dark);">
         <svg width="90" height="60" viewBox="0 0 90 60"><circle cx="45" cy="35" r="10" fill="var(--mustard)"/><circle cx="45" cy="35" r="16" fill="none" stroke="var(--rust)" stroke-width="2"/></svg>
       </div>
@@ -303,6 +322,15 @@
   </div>
 </section>
 
+<section class="quote-band">
+  <div class="wrap">
+    <blockquote data-pl="Wszystkie miejsca są niesamowite i dają poczucie tego, jak małym i bezbronnym się jest względem tak dzikiej przyrody."
+                data-en="Every place felt incredible and made us feel how small and defenseless you are against nature this wild.">
+      Wszystkie miejsca są niesamowite i dają poczucie tego, jak małym i bezbronnym się jest względem tak dzikiej przyrody.
+    </blockquote>
+  </div>
+</section>
+
 <footer>
   <div class="brand2">USA Road Trip</div>
   <p id="ui-footerDesc">Relacja z naszej podróży przez parki narodowe amerykańskiego Zachodu — lipiec–sierpień 2026.</p>
@@ -316,7 +344,13 @@
     <div class="modal-km" id="modalKm"></div>
     <p class="modal-desc" id="modalDesc"></p>
     <ul class="modal-list" id="modalList"></ul>
+    <div class="modal-gallery" id="modalGallery"></div>
   </div>
+</div>
+
+<div class="lightbox" id="lightbox" onclick="closeLightbox()">
+  <button class="lightbox-close" onclick="closeLightbox()" aria-label="Zamknij">&times;</button>
+  <img id="lightboxImg" src="" alt="">
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.js"></script>
