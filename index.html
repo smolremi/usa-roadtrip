@@ -18,18 +18,50 @@
 
 <div class="reading-progress" id="readingProgress"></div>
 
-<nav>
-  <div class="lang-switch">
-    <button class="lang-btn active" data-lang="pl" onclick="setLanguage('pl')" aria-label="Polski">🇵🇱</button>
-    <button class="lang-btn" data-lang="en" onclick="setLanguage('en')" aria-label="English">🇬🇧</button>
-  </div>
-  <div class="wrap">
-    <div class="brand">
-      <span class="quote" data-pl="Nie ma nic bardziej amerykańskiego niż nasze parki narodowe." data-en="There is nothing so American as our national parks.">Nie ma nic bardziej amerykańskiego niż nasze parki narodowe.</span>
-      <span class="quote-author">Franklin D. Roosevelt (1934)</span>
+<div class="lang-switch">
+  <button class="lang-btn active" data-lang="pl" onclick="setLanguage('pl')" aria-label="Polski">🇵🇱</button>
+  <button class="lang-btn" data-lang="en" onclick="setLanguage('en')" aria-label="English">🇬🇧</button>
+</div>
+
+<section class="intro-quote">
+  <div class="wrap intro-quote-inner">
+    <div class="intro-quote-text">
+      <blockquote data-pl="Nie ma nic bardziej amerykańskiego niż nasze parki narodowe."
+                  data-en="There is nothing so American as our national parks.">
+        Nie ma nic bardziej amerykańskiego niż nasze parki narodowe.
+      </blockquote>
+      <span class="intro-quote-author" data-pl="Franklin D. Roosevelt · 1934" data-en="Franklin D. Roosevelt · 1934">Franklin D. Roosevelt · 1934</span>
     </div>
+    <svg class="intro-quote-badge" viewBox="0 0 120 120" role="img" aria-label="National Parks · USA · Est. 2026">
+      <defs>
+        <path id="introBadgeArc" d="M 11 60 A 49 49 0 0 1 109 60" fill="none"/>
+      </defs>
+      <circle cx="60" cy="60" r="56" fill="none" stroke="var(--mustard)" stroke-width="1.5" stroke-dasharray="3 4"/>
+      <circle cx="60" cy="60" r="40" fill="none" stroke="var(--mustard)" stroke-width="2"/>
+      <text class="intro-badge-text" fill="var(--mustard)">
+        <textPath href="#introBadgeArc" startOffset="50%" text-anchor="middle">NATIONAL PARKS · USA</textPath>
+      </text>
+      <g stroke="var(--mustard)" stroke-width="2" stroke-linecap="round">
+        <line x1="60" y1="33" x2="60" y2="28"/>
+        <line x1="45" y1="44" x2="41" y2="44"/>
+        <line x1="75" y1="44" x2="79" y2="44"/>
+        <line x1="50" y1="35" x2="47" y2="32"/>
+        <line x1="70" y1="35" x2="73" y2="32"/>
+      </g>
+      <circle cx="60" cy="44" r="6" fill="var(--mustard)"/>
+      <path d="M 30 74 L 47 55 L 58 67 L 71 51 L 90 74 Z" fill="var(--mustard)"/>
+      <text x="60" y="91" fill="var(--mustard)" text-anchor="middle" class="intro-badge-est">EST. 2026</text>
+    </svg>
   </div>
-</nav>
+</section>
+
+<div class="intro-note">
+  <div class="intro-eyebrow" data-pl="Nasza historia" data-en="Our story">Nasza historia</div>
+  <p data-pl="Podróż odbyliśmy na nasze 30 urodziny do miejsca, które przynajmniej mi od zawsze bardzo się marzyło. Podróż w to miejsce kompletnie zmieniło moje podejście do postrzegania Stanów Zjednoczonych. Zapraszamy teraz na małą podróż razem z nami…"
+     data-en="We took this trip for our 30th birthdays, to a place I'd dreamed about for as long as I can remember. It completely changed how I see the United States. Now, join us on a little journey of our own…">
+    Podróż odbyliśmy na nasze 30 urodziny do miejsca, które przynajmniej mi od zawsze bardzo się marzyło. Podróż w to miejsce kompletnie zmieniło moje podejście do postrzegania Stanów Zjednoczonych. Zapraszamy teraz na małą podróż razem z nami…
+  </p>
+</div>
 
 <header class="hero">
   <svg class="hero-illustration" viewBox="0 0 220 140" fill="none">
@@ -59,17 +91,17 @@
     </div>
   </div>
   <div class="route-track">
-    <div class="stop"><div class="badge">1</div><div class="name">Las Vegas</div><div class="state">Nevada</div></div>
-    <div class="stop"><div class="badge">2</div><div class="name">Flagstaff</div><div class="state">Arizona</div></div>
-    <div class="stop"><div class="badge">3</div><div class="name">Page</div><div class="state">Arizona</div></div>
-    <div class="stop"><div class="badge">4</div><div class="name">Cortez</div><div class="state">Colorado</div></div>
-    <div class="stop"><div class="badge">5</div><div class="name">Montrose</div><div class="state">Colorado</div></div>
-    <div class="stop"><div class="badge">6</div><div class="name">Denver</div><div class="state">Colorado</div></div>
-    <div class="stop"><div class="badge">7</div><div class="name">Scottsbluff</div><div class="state">Nebraska</div></div>
-    <div class="stop"><div class="badge">8</div><div class="name">Rapid City</div><div class="state">S. Dakota</div></div>
-    <div class="stop"><div class="badge">9</div><div class="name">Billings</div><div class="state">Montana</div></div>
-    <div class="stop"><div class="badge">10</div><div class="name">W. Yellowstone</div><div class="state">Wyoming</div></div>
-    <div class="stop"><div class="badge">11</div><div class="name">Salt Lake City</div><div class="state">Utah</div></div>
+    <div class="stop" onclick="openDayModal(1)"><div class="badge">1</div><div class="name">Las Vegas</div><div class="state">Nevada</div></div>
+    <div class="stop" onclick="openDayModal(2)"><div class="badge">2</div><div class="name">Flagstaff</div><div class="state">Arizona</div></div>
+    <div class="stop" onclick="openDayModal(3)"><div class="badge">3</div><div class="name">Page</div><div class="state">Arizona</div></div>
+    <div class="stop" onclick="openDayModal(4)"><div class="badge">4</div><div class="name">Cortez</div><div class="state">Colorado</div></div>
+    <div class="stop" onclick="openDayModal(5)"><div class="badge">5</div><div class="name">Montrose</div><div class="state">Colorado</div></div>
+    <div class="stop" onclick="openDayModal(6)"><div class="badge">6</div><div class="name">Denver</div><div class="state">Colorado</div></div>
+    <div class="stop" onclick="openDayModal(7)"><div class="badge">7</div><div class="name">Scottsbluff</div><div class="state">Nebraska</div></div>
+    <div class="stop" onclick="openDayModal(8)"><div class="badge">8</div><div class="name">Rapid City</div><div class="state">S. Dakota</div></div>
+    <div class="stop" onclick="openDayModal(9)"><div class="badge">9</div><div class="name">Billings</div><div class="state">Montana</div></div>
+    <div class="stop" onclick="openDayModal(10)"><div class="badge">10</div><div class="name">W. Yellowstone</div><div class="state">Wyoming</div></div>
+    <div class="stop" onclick="openDayModal(11)"><div class="badge">11</div><div class="name">Salt Lake City</div><div class="state">Utah</div></div>
   </div>
 </section>
 
@@ -348,9 +380,11 @@
   </div>
 </div>
 
-<div class="lightbox" id="lightbox" onclick="closeLightbox()">
+<div class="lightbox" id="lightbox" onclick="if(event.target===this) closeLightbox()">
   <button class="lightbox-close" onclick="closeLightbox()" aria-label="Zamknij">&times;</button>
+  <button class="lightbox-nav lightbox-prev" onclick="lightboxStep(-1)" aria-label="Poprzednie zdjęcie">&#8249;</button>
   <img id="lightboxImg" src="" alt="">
+  <button class="lightbox-nav lightbox-next" onclick="lightboxStep(1)" aria-label="Następne zdjęcie">&#8250;</button>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.js"></script>

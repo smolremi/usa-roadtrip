@@ -43,7 +43,7 @@ function renderGallery(photos, title){
     const btn = document.createElement('button');
     btn.type = 'button';
     btn.className = 'gallery-thumb';
-    btn.addEventListener('click', () => openLightbox(src, title));
+    btn.addEventListener('click', () => openLightbox(photos, i, title));
     const img = document.createElement('img');
     img.src = src;
     img.loading = 'lazy';
@@ -53,17 +53,43 @@ function renderGallery(photos, title){
   });
 }
 
-function openLightbox(src, alt){
-  const box = document.getElementById('lightbox');
-  const img = document.getElementById('lightboxImg');
-  img.src = src;
-  img.alt = alt || '';
-  box.classList.add('open');
+// Stan lightboxa: cała galeria danego dnia + indeks aktualnie pokazanego zdjęcia.
+let lightboxPhotos = [];
+let lightboxIndex = 0;
+let lightboxAlt = '';
+
+function openLightbox(photos, index, alt){
+  lightboxPhotos = Array.isArray(photos) ? photos : [photos];
+  lightboxIndex = index || 0;
+  lightboxAlt = alt || '';
+  updateLightbox();
+  document.getElementById('lightbox').classList.add('open');
 }
+
+function updateLightbox(){
+  const img = document.getElementById('lightboxImg');
+  img.src = lightboxPhotos[lightboxIndex] || '';
+  img.alt = lightboxPhotos.length > 1
+    ? lightboxAlt + ' — ' + (lightboxIndex + 1) + '/' + lightboxPhotos.length
+    : lightboxAlt;
+  // Strzałki widoczne tylko gdy w galerii jest więcej niż jedno zdjęcie.
+  const multi = lightboxPhotos.length > 1;
+  document.querySelectorAll('.lightbox-nav').forEach(btn => {
+    btn.style.display = multi ? 'flex' : 'none';
+  });
+}
+
+// Przełącz zdjęcie w lightboxie o delta (-1 / +1), z zawijaniem w obrębie galerii dnia.
+function lightboxStep(delta){
+  if (lightboxPhotos.length < 2) return;
+  lightboxIndex = (lightboxIndex + delta + lightboxPhotos.length) % lightboxPhotos.length;
+  updateLightbox();
+}
+
 function closeLightbox(){
-  const box = document.getElementById('lightbox');
-  box.classList.remove('open');
+  document.getElementById('lightbox').classList.remove('open');
   document.getElementById('lightboxImg').src = '';
+  lightboxPhotos = [];
 }
 
 // Modal karty parku - ten sam modal co dni (#dayModal), tylko bez daty/opisu,
@@ -95,13 +121,15 @@ function closeDayModal(){
   currentModalType = null;
 }
 document.addEventListener('keydown', e => {
-  if (e.key !== 'Escape') return;
-  // Najpierw zamknij lightbox (jeśli otwarty), dopiero potem modal.
-  if (document.getElementById('lightbox').classList.contains('open')) {
-    closeLightbox();
-  } else {
-    closeDayModal();
+  const lightboxOpen = document.getElementById('lightbox').classList.contains('open');
+  if (lightboxOpen) {
+    // Lightbox otwarty: Esc zamyka, strzałki lewo/prawo przełączają zdjęcie.
+    if (e.key === 'Escape') closeLightbox();
+    else if (e.key === 'ArrowLeft') lightboxStep(-1);
+    else if (e.key === 'ArrowRight') lightboxStep(1);
+    return;
   }
+  if (e.key === 'Escape') closeDayModal();
 });
 
 // Przełącznik języka PL/EN.
