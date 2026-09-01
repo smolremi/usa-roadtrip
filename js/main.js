@@ -7,6 +7,17 @@ let currentParkNum = null; // numer parku aktualnie otwartego w modalu (do odśw
 let currentModalType = null; // 'day' | 'park' - który rodzaj treści jest aktualnie w modalu
 let currentLang = 'pl'; // aktualnie wybrany język, ustawiany przez setLanguage
 
+// Wypełnia listę w modalu (#modalList) elementami <li> z podanej tablicy tekstów.
+function fillModalList(items){
+  const list = document.getElementById('modalList');
+  list.innerHTML = '';
+  items.forEach(item => {
+    const li = document.createElement('li');
+    li.textContent = item;
+    list.appendChild(li);
+  });
+}
+
 function openDayModal(dayNum){
   const d = window.activeDayData[dayNum];
   currentModalType = 'day';
@@ -18,13 +29,7 @@ function openDayModal(dayNum){
   document.getElementById('modalKm').style.display = d.km ? 'block' : 'none';
   document.getElementById('modalDesc').style.display = 'block';
   document.getElementById('modalDesc').textContent = d.desc;
-  const list = document.getElementById('modalList');
-  list.innerHTML = '';
-  d.list.forEach(item => {
-    const li = document.createElement('li');
-    li.textContent = item;
-    list.appendChild(li);
-  });
+  fillModalList(d.list);
   renderGallery(d.photos, d.title);
   document.getElementById('dayModal').classList.add('open');
 }
@@ -103,13 +108,7 @@ function openParkModal(parkNum){
   document.getElementById('modalTitle').textContent = p.title;
   document.getElementById('modalKm').style.display = 'none';
   document.getElementById('modalDesc').style.display = 'none';
-  const list = document.getElementById('modalList');
-  list.innerHTML = '';
-  p.list.forEach(item => {
-    const li = document.createElement('li');
-    li.textContent = item;
-    list.appendChild(li);
-  });
+  fillModalList(p.list);
   renderGallery(null); // karty parków nie mają zdjęć
   document.getElementById('dayModal').classList.add('open');
 }

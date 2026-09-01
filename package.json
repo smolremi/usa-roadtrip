@@ -1,0 +1,18 @@
+{
+  "name": "usa-roadtrip",
+  "version": "1.0.0",
+  "description": "Statyczna strona z relacją z podróży USA Road Trip przez parki narodowe Zachodu.",
+  "private": true,
+  "scripts": {
+    "compress-photos": "node scripts/compress-photos.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/smolremi/usa-roadtrip.git"
+  },
+  "license": "ISC",
+  "type": "commonjs",
+  "devDependencies": {
+    "sharp": "^0.35.4"
+  }
+}

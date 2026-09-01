@@ -1,0 +1,5 @@
+# Kopia zapasowa oryginalnych zdjęć — nie wysyłamy na GitHub (duży rozmiar)
+assets/photos-original/
+
+# Zależności Node.js
+node_modules/
