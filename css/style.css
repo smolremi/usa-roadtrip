@@ -6,6 +6,7 @@
   --rust-dark:#8C3A22;
   --mustard:#D8A02B;
   --green:#3C5A40;
+  --green-light:#6B8B6E;
   --green-dark:#2A4230;
   --ink:#2B2118;
   --ink-soft:#5B4B3A;
@@ -145,7 +146,7 @@ h1,h2,h3{
     radial-gradient(circle at 50% 18%, rgba(216,160,43,0.18), transparent 55%),
     var(--cream);
 }
-.hero-illustration{width:220px; height:140px; margin:0 auto 22px; display:block;}
+.hero-illustration{width:min(340px, 80vw); height:auto; margin:0 auto 24px; display:block;}
 .hero .eyebrow{display:block; margin-bottom:14px;}
 .hero h1{
   font-size:clamp(40px, 8vw, 84px);
